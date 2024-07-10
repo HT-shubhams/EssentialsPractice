@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'app-user-input',
+  selector: "app-user-input",
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './user-input.component.html',
-  styleUrl: './user-input.component.css',
+  templateUrl: "./user-input.component.html",
+  styleUrl: "./user-input.component.css",
 })
 export class UserInputComponent {
-  enteredIntialInvestment = '0';
-  enteredAnnualInvestment = '0';
-  enteredExpectedReturn = '5';
-  enteredDuration = '10';
+  @Output() calculate = new EventEmitter<{
+    initialInvestment: number;
+    duration: number;
+    expectedReturn: number;
+    annualInvestment: number;
+  }>();
+
+  enteredIntialInvestment = "0";
+  enteredAnnualInvestment = "0";
+  enteredExpectedReturn = "5";
+  enteredDuration = "10";
 
   onSubmit() {
-    console.log('Submitted!');
-    console.log(this.enteredIntialInvestment);
-    console.log(this.enteredAnnualInvestment);
-    console.log(this.enteredExpectedReturn);
-    console.log(this.enteredDuration);
+    this.calculate.emit({
+      initialInvestment: +this.enteredIntialInvestment,
+      annualInvestment: +this.enteredAnnualInvestment,
+      duration: +this.enteredDuration,
+      expectedReturn: +this.enteredExpectedReturn,
+    });
   }
 }
